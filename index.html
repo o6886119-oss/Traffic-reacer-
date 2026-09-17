@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Racer - Ultra HD 3D</title>
+    <title>Traffic Racer - Pro HD Edition</title>
     <style>
         body {
             margin: 0;
@@ -43,8 +43,8 @@
             z-index: 10;
         }
         .btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             color: white;
             font-size: 28px;
             width: 75px;
@@ -59,7 +59,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
         .btn:active {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.4);
             transform: scale(0.92);
         }
         .ui-score {
@@ -140,7 +140,7 @@
         <!-- Main Menu -->
         <div id="mainMenu" class="screen">
             <h1>TRAFFIC RACER</h1>
-            <p>Ultra HD 3D Realistic Edition</p>
+            <p>Pro HD Bridge Edition</p>
             <button class="menu-btn" onclick="startGame()">START GAME</button>
         </div>
 
@@ -175,8 +175,8 @@
         let car = {
             x: 200,
             y: 520,
-            width: 50,
-            height: 95,
+            width: 52,
+            height: 98,
             dx: 0
         };
 
@@ -186,19 +186,19 @@
         const leftBtn = document.getElementById('leftBtn');
         const rightBtn = document.getElementById('rightBtn');
 
-        leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); car.dx = -7; });
+        leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); car.dx = -7.5; });
         leftBtn.addEventListener('touchend', () => { car.dx = 0; });
-        leftBtn.addEventListener('mousedown', () => { car.dx = -7; });
+        leftBtn.addEventListener('mousedown', () => { car.dx = -7.5; });
         leftBtn.addEventListener('mouseup', () => { car.dx = 0; });
 
-        rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); car.dx = 7; });
+        rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); car.dx = 7.5; });
         rightBtn.addEventListener('touchend', () => { car.dx = 0; });
-        rightBtn.addEventListener('mousedown', () => { car.dx = 7; });
+        rightBtn.addEventListener('mousedown', () => { car.dx = 7.5; });
         rightBtn.addEventListener('mouseup', () => { car.dx = 0; });
 
         window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') car.dx = -7;
-            if (e.key === 'ArrowRight') car.dx = 7;
+            if (e.key === 'ArrowLeft') car.dx = -7.5;
+            if (e.key === 'ArrowRight') car.dx = 7.5;
         });
         window.addEventListener('keyup', (e) => {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') car.dx = 0;
@@ -232,12 +232,12 @@
         }
 
         function spawnObstacle() {
-            let laneX = [120, 200, 280];
+            let laneX = [118, 200, 282];
             let chosenX = laneX[Math.floor(Math.random() * laneX.length)];
             let types = [
-                {w: 50, h: 95, col: '#ff1744'}, // Red Sports Car
-                {w: 54, h: 115, col: '#f5f5f5'}, // White Van
-                {w: 50, h: 95, col: '#ffea00'}  // Yellow Car
+                {w: 52, h: 98, col: '#ff1744'}, // Red Sports Car
+                {w: 56, h: 120, col: '#eceff1'}, // White Truck
+                {w: 52, h: 98, col: '#ffea00'}  // Yellow Sport Car
             ];
             let t = types[Math.floor(Math.random() * types.length)];
             
@@ -246,7 +246,7 @@
                 y: -140,
                 width: t.w,
                 height: t.h,
-                speed: 4,
+                speed: 4.2,
                 color: t.col
             });
         }
@@ -255,19 +255,19 @@
             if (!gameActive) return;
 
             car.x += car.dx;
-            if (car.x < 75) car.x = 75;
-            if (car.x > 325 - car.width) car.x = 325 - car.width;
+            if (car.x < 70) car.x = 70;
+            if (car.x > 330 - car.width) car.x = 330 - car.width;
 
-            roadOffset = (roadOffset + 10) % 50;
+            roadOffset = (roadOffset + 12) % 50;
 
             obstacleTimer++;
-            if (obstacleTimer > 50) {
+            if (obstacleTimer > 48) {
                 spawnObstacle();
                 obstacleTimer = 0;
             }
 
             for (let i = obstacles.length - 1; i >= 0; i--) {
-                obstacles[i].y += obstacles[i].speed + 3.5;
+                obstacles[i].y += obstacles[i].speed + 3.8;
 
                 if (
                     car.x < obstacles[i].x + obstacles[i].width - 6 &&
@@ -282,59 +282,59 @@
 
                 if (obstacles[i].y > canvas.height) {
                     obstacles.splice(i, 1);
-                    score += 30;
+                    score += 35;
                     scoreDisplay.innerText = "Score: " + score;
                 }
             }
         }
 
-        // Draw Ultra HD Realistic Car (3D Shading & Reflection)
+        // Draw High-End Glossy 3D Car
         function drawCar(x, y, width, height, color, isPlayer) {
             ctx.save();
             ctx.translate(x, y);
 
             // Realistic Soft Shadow
-            ctx.fillStyle = 'rgba(0,0,0,0.65)';
+            ctx.fillStyle = 'rgba(0,0,0,0.6)';
             ctx.beginPath();
-            ctx.ellipse(width/2, height/2 + 5, width/2 + 4, height/2 + 6, 0, 0, Math.PI * 2);
+            ctx.ellipse(width/2, height/2 + 6, width/2 + 6, height/2 + 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
             // Car Body Gradient (Metallic Look)
             let grad = ctx.createLinearGradient(0, 0, width, 0);
-            grad.addColorStop(0, shadeColor(color, -30));
+            grad.addColorStop(0, shadeColor(color, -35));
             grad.addColorStop(0.5, color);
-            grad.addColorStop(1, shadeColor(color, -40));
+            grad.addColorStop(1, shadeColor(color, -45));
 
             ctx.fillStyle = grad;
             ctx.beginPath();
-            ctx.roundRect(0, 0, width, height, [14, 14, 8, 8]);
+            ctx.roundRect(0, 0, width, height, [16, 16, 10, 10]);
             ctx.fill();
 
-            // Windshield & Roof Glass
-            ctx.fillStyle = '#111';
+            // Roof & Windows
+            ctx.fillStyle = '#0f172a';
             ctx.beginPath();
             ctx.roundRect(6, height * 0.22, width - 12, height * 0.48, [4, 4, 2, 2]);
             ctx.fill();
 
-            // Glass Reflection Gradient
+            // Glass Reflection
             let glassGrad = ctx.createLinearGradient(6, 0, width - 6, 0);
-            glassGrad.addColorStop(0, 'rgba(255,255,255,0.25)');
-            glassGrad.addColorStop(0.5, 'rgba(255,255,255,0.05)');
-            glassGrad.addColorStop(1, 'rgba(0,0,0,0.3)');
+            glassGrad.addColorStop(0, 'rgba(255,255,255,0.3)');
+            glassGrad.addColorStop(0.5, 'rgba(255,255,255,0.08)');
+            glassGrad.addColorStop(1, 'rgba(0,0,0,0.4)');
             ctx.fillStyle = glassGrad;
             ctx.fillRect(8, height * 0.26, width - 16, height * 0.38);
 
             // Tires
-            ctx.fillStyle = '#1a1a1a';
-            ctx.fillRect(-6, 16, 6, 20);
-            ctx.fillRect(width, 16, 6, 20);
-            ctx.fillRect(-6, height - 28, 6, 20);
-            ctx.fillRect(width, height - 28, 6, 20);
+            ctx.fillStyle = '#111';
+            ctx.fillRect(-7, 18, 7, 22);
+            ctx.fillRect(width, 18, 7, 22);
+            ctx.fillRect(-7, height - 30, 7, 22);
+            ctx.fillRect(width, height - 30, 7, 22);
 
-            // Glowing Tail Lights & Headlights (if viewing from behind)
+            // Glowing Tail Lights
             ctx.fillStyle = isPlayer ? '#ff1744' : '#ff3d00';
             ctx.shadowColor = '#ff1744';
-            ctx.shadowBlur = 10;
+            ctx.shadowBlur = 12;
             ctx.fillRect(4, 3, 10, 6);
             ctx.fillRect(width - 14, 3, 10, 6);
 
@@ -353,26 +353,26 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Realistic Sky
+            // 1. Sky Gradient
             let skyGrad = ctx.createLinearGradient(0, 0, 0, 180);
             skyGrad.addColorStop(0, '#0288d1');
-            skyGrad.addColorStop(1, '#b3e5fc');
+            skyGrad.addColorStop(1, '#81d4fa');
             ctx.fillStyle = skyGrad;
             ctx.fillRect(0, 0, canvas.width, 180);
 
-            // 2. Horizon Desert / Ground Banks
-            ctx.fillStyle = '#8bc34a';
+            // 2. Horizon Ground Banks (Greenery)
+            ctx.fillStyle = '#7cb342';
             ctx.fillRect(0, 165, canvas.width, 40);
 
-            // 3. Water on both sides with depth shading
+            // 3. Water on Both Sides
             let waterGrad = ctx.createLinearGradient(0, 205, 0, canvas.height);
-            waterGrad.addColorStop(0, '#01579b');
-            waterGrad.addColorStop(1, '#0277bd');
+            waterGrad.addColorStop(0, '#0277bd');
+            waterGrad.addColorStop(1, '#01579b');
             ctx.fillStyle = waterGrad;
             ctx.fillRect(0, 205, canvas.width, canvas.height - 205);
 
-            // Water Wave Highlights
-            ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+            // Water Waves
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
             ctx.lineWidth = 2;
             ctx.beginPath();
             for(let i = 230; i < canvas.height; i += 40) {
@@ -381,41 +381,41 @@
             }
             ctx.stroke();
 
-            // Realistic Palm Trees
-            [25, 375].forEach(tx => {
+            // Palm Trees on Sides
+            [20, 380].forEach(tx => {
                 for(let ty = 220; ty < canvas.height; ty += 110) {
                     ctx.fillStyle = '#33691e';
                     ctx.beginPath();
-                    ctx.arc(tx, (ty + roadOffset*2) % canvas.height, 20, 0, Math.PI * 2);
+                    ctx.arc(tx, (ty + roadOffset*2) % canvas.height, 22, 0, Math.PI * 2);
                     ctx.fill();
-                    // Tree Trunk
-                    ctx.fillStyle = '#4e342e';
-                    ctx.fillRect(tx - 4, (ty + roadOffset*2) % canvas.height, 8, 40);
+                    // Trunk
+                    ctx.fillStyle = '#5d4037';
+                    ctx.fillRect(tx - 4, (ty + roadOffset*2) % canvas.height, 8, 42);
                 }
             });
 
-            // 4. Ultra HD Bridge & Highway (Asphalt 3D Perspective)
-            ctx.fillStyle = '#263238';
+            // 4. Pro Bridge Highway 3D Perspective
+            ctx.fillStyle = '#37474f';
             ctx.beginPath();
-            ctx.moveTo(60, 205);
-            ctx.lineTo(340, 205);
-            ctx.lineTo(370, canvas.height);
-            ctx.lineTo(30, canvas.height);
+            ctx.moveTo(55, 205);
+            ctx.lineTo(345, 205);
+            ctx.lineTo(380, canvas.height);
+            ctx.lineTo(20, canvas.height);
             ctx.fill();
 
-            // Bridge Concrete Border Railings
-            ctx.strokeStyle = '#cfd8dc';
+            // Bridge Concrete Railings
+            ctx.strokeStyle = '#eceff1';
             ctx.lineWidth = 6;
             ctx.beginPath();
-            ctx.moveTo(60, 205); ctx.lineTo(30, canvas.height);
-            ctx.moveTo(340, 205); ctx.lineTo(370, canvas.height);
+            ctx.moveTo(55, 205); ctx.lineTo(20, canvas.height);
+            ctx.moveTo(345, 205); ctx.lineTo(380, canvas.height);
             ctx.stroke();
 
-            // Lane Divider Dashed Lines (Glowing White)
+            // Lane Divider Dashed Lines
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 4;
             ctx.shadowColor = '#ffffff';
-            ctx.shadowBlur = 5;
+            ctx.shadowBlur = 6;
             ctx.setLineDash([30, 30]);
             ctx.lineDashOffset = -roadOffset;
             
@@ -427,12 +427,12 @@
             ctx.setLineDash([]);
             ctx.shadowBlur = 0;
 
-            // 5. Render Traffic Vehicles
+            // 5. Draw Traffic Cars
             obstacles.forEach(obs => {
                 drawCar(obs.x, obs.y, obs.width, obs.height, obs.color, false);
             });
 
-            // 6. Render Player Sports Car (Gorgeous Cyan Glossy Look)
+            // 6. Draw Player Sport Car (Glowing Cyan)
             drawCar(car.x, car.y, car.width, car.height, '#00e5ff', true);
         }
 
